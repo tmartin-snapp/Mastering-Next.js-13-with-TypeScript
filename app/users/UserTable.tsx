@@ -1,34 +1,50 @@
-import React from 'react'
+import { sort } from "fast-sort";
+import Link from "next/link";
+import React from "react";
 
 interface User {
   id: number;
   name: string;
-	email: string;
+  email: string;
 }
 
-const UserTable = async () => {
-	const res = await fetch('https://jsonplaceholder.typicode.com/users', {
-    cache: 'no-store' //<-- no guarda la info al cache
+interface Props {
+  sortOrder: string;
+}
+
+const UserTable = async ({ sortOrder }: Props) => {
+  const res = await fetch("https://jsonplaceholder.typicode.com/users", {
+    cache: "no-store", //<-- no guarda la info al cache
     //next: {revalidate: 10} // repeteix el fetch cada 10 segons
-    })
+  });
   const users: User[] = await res.json();
+
+  const SortedUsers = sort(users).asc(
+    sortOrder === "email" ? (user) => user.email : (user) => user.name
+  );
 
   return (
     <table>
-			<thead>
-				<tr>
-					<th>Name</th>
-					<th>Email</th>
-				</tr>
-			</thead>
-			<tbody>
-				{users.map(user => <tr key={user.id}>
-					<td>{user.name}</td>
-					<td>{user.email}</td>
-				</tr>)}
-			</tbody>
+      <thead>
+        <tr>
+          <th>
+            <Link href="/users?sortOrder=name">Name</Link>
+          </th>
+          <th>
+            <Link href="/users?sortOrder=email">Email</Link>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {SortedUsers.map((user) => (
+          <tr key={user.id}>
+            <td>{user.name}</td>
+            <td>{user.email}</td>
+          </tr>
+        ))}
+      </tbody>
     </table>
-  )
-}
+  );
+};
 
-export default UserTable
+export default UserTable;

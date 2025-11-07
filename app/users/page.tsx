@@ -1,11 +1,19 @@
-import Link from 'next/link';
-import React from 'react'
 import UserTable from './UserTable';
 
-const usersPage = async () => {
+interface Props {
+  searchParams: Promise<SearchParams>;
+}
+
+interface SearchParams {
+  sortOrder?: string;
+}
+
+const usersPage = async ( { searchParams } : Props) => {
+  const { sortOrder = '' } = await searchParams;
+  console.log(sortOrder);
 
   return (
-    <UserTable />
+    <UserTable sortOrder={sortOrder}/>
   )
 }
 
