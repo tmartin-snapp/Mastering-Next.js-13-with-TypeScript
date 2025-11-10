@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import React from "react";
+import schema from "../schema";
 
 interface Props {
   params: Promise<Params>;
@@ -30,20 +31,13 @@ export async function PUT (
 ) {
 	//Validate the request body
 	const body = await request.json();
-	if (!body.name)
-	//If invalid, return 400
-		return NextResponse.json({ error: 'The name is not valid'}, {status: 400})
-	//Fetch the user with the given id
-	
+	const validation = schema.safeParse(body)
+	if (!validation.success)
+		return NextResponse.json(validation.error.message, {status: 400}) //If invalid, return 400
 	const { id } = React.use(params);
-	if ( id > 10)
-		return NextResponse.json({error: 'The user with the id value specified does not exist'}, {status: 404})
-
-	return NextResponse.json({ id: id, name: body.name})
-	//If doesn't exist, return 404
-
-	//Update the user
-	//Return the updated user
+	if ( id > 10 )  	//Fetch the user with the given id
+		return NextResponse.json({error: 'The user with the id value specified does not exist'}, {status: 404}) //If doesn't exist, return 404
+	return NextResponse.json({ id: id, name: body.name})//Update the user	//Return the updated user
 }
 
 export function DELETE (
