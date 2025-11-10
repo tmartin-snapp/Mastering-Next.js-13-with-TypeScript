@@ -26,8 +26,8 @@ export function GET(
 
 export async function PUT (
 	request: NextRequest, 
-	{ params }: { params: { id: number}}) 
-{
+	{ params }: Props
+) {
 	//Validate the request body
 	const body = await request.json();
 	if (!body.name)
@@ -35,13 +35,25 @@ export async function PUT (
 		return NextResponse.json({ error: 'The name is not valid'}, {status: 400})
 	//Fetch the user with the given id
 	
-	if (params.id > 10)
+	const { id } = React.use(params);
+	if ( id > 10)
 		return NextResponse.json({error: 'The user with the id value specified does not exist'}, {status: 404})
 
-	return NextResponse.json({ id: params.id, name: body.name})
+	return NextResponse.json({ id: id, name: body.name})
 	//If doesn't exist, return 404
 
 	//Update the user
 	//Return the updated user
+}
+
+export function DELETE (
+	request: NextRequest,
+	{ params }: Props 
+) {
+	const { id } = React.use(params);
+	if (id > 10)
+		return NextResponse.json({error: 'User not found'}, {status: 404})
+
+	return NextResponse.json({})
 }
 
