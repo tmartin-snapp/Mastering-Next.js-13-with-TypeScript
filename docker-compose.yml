@@ -6,9 +6,9 @@ services:
       - MYSQL_DATABASE=playground
       - MYSQL_ROOT_PASSWORD=SnappSolutions2025!.
     ports:
-      - "1433:1433"
+      - "3307:3306"
     volumes:
-      - C:\Users\tmartin\sqlServerData:/var/opt/mssql
+      - C:\Users\tmartin\sqlServerData:/var/lib/mysql
     restart: always
 
   adminer:
