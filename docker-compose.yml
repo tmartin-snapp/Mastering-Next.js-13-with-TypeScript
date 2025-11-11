@@ -1,27 +1,21 @@
-version: '3.8'
-
 services:
-  mysql:
+  db:
     image: mysql
-    container_name: playgroundDataBase
+    container_name: sqlserver
     environment:
-      MYSQL_DATABASE: playground
-      MYSQL_USER: tmartin
-      MYSQL_PASSWORD: SnappSolutions2025!.
+      - MYSQL_DATABASE=playground
+      - MYSQL_ROOT_PASSWORD=SnappSolutions2025!.
     ports:
-      - "3306:3306"
+      - "1433:1433"
     volumes:
-      - mysql_data:/var/lib/mysql
-      - ./playgroundDB
+      - C:\Users\tmartin\sqlServerData:/var/opt/mssql
+    restart: always
 
   adminer:
     image: adminer
-    container_name: adminer_container
-    restart: always
+    container_name: adminer
     ports:
       - "8080:8080"
     depends_on:
-      - mysql
-
-volumes:
-  mysql_data:
+      - db
+    restart: always

@@ -18,6 +18,7 @@
 /out/
 
 # production
+/dist
 /build
 
 # misc
@@ -40,7 +41,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-#database
-mysql_data/
+# Carpetas de datos persistentes (bases de datos, volúmenes locales, etc.)
+C:\Users\tmartin\sqlServerData/
+sqlServerData/
 data/
-db_data/
+volumes/
