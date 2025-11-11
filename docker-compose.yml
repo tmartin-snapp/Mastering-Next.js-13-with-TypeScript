@@ -4,7 +4,7 @@ services:
     container_name: sqlserver
     environment:
       - MYSQL_DATABASE=playground
-      - MYSQL_ROOT_PASSWORD=SnappSolutions2025!.
+      - MYSQL_ROOT_PASSWORD=SnappSolutions2025
     ports:
       - "3307:3306"
     volumes:
