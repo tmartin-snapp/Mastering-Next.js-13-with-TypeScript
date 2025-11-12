@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import schema from "../../../users/schema";
 import { prisma } from "@/prisma/client";
+import { de } from "zod/locales";
 
 interface Props {
   params: Promise<Params>;
@@ -57,11 +58,23 @@ export async function PUT(request: NextRequest, { params }: Props) {
   return NextResponse.json(updatedUser); //Update the user	//Return the updated user
 }
 
-/*export function DELETE(request: NextRequest, { params }: Props) {
-  const { id } = React.use(params);
-  if (id > 10)
-    return NextResponse.json({ error: "User not found" }, { status: 404 });
+export async function DELETE(request: NextRequest, { params }: Props) {
+  const { id } = await params;
+  const parsedId = parseInt(id);
 
-  return NextResponse.json({});
+  const user = await prisma.user.findUnique({
+    where: { id: parsedId },
+  });
+
+  if (!user)
+    return NextResponse.json(
+      { error: "The user with the id value specified does not exist" },
+      { status: 404 }
+    );
+  const deletedUser = await prisma.user.delete({
+    where: { id: parsedId },
+  });
+  
+  return NextResponse.json(deletedUser);
 }
-*/
+
