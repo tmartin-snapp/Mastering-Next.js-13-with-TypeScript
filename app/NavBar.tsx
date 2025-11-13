@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
 import Link from 'next/link'
 import React from 'react'
-import SignIn from './components/Sign-In'
+import { SignIn } from './components/Sign-In'
 import { useSession } from 'next-auth/react'
 
 const NavBar = () => {
